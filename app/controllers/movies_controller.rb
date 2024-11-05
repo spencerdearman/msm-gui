@@ -36,6 +36,28 @@ class MoviesController < ApplicationController
     redirect_to("/movies")
   end
 
+  def update
+    # Get the movie ID from params
+    the_id = params.fetch("the_id")
+    
+    # Find the existing movie record
+    movie = Movie.where({ id: the_id }).at(0)
+    
+    # Update movie attributes from form inputs with query_ prefix
+    movie.title = params.fetch("query_title")
+    movie.year = params.fetch("query_year")
+    movie.duration = params.fetch("query_duration")
+    movie.description = params.fetch("query_description")
+    movie.image = params.fetch("query_image")
+    movie.director_id = params.fetch("query_director_id")
+    
+    # Save the updated movie record
+    movie.save
+    
+    # Redirect to the movie's detail page
+    redirect_to("/movies/#{movie.id}")
+  end
+
 
   def index
     matching_movies = Movie.all

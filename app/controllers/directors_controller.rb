@@ -50,23 +50,17 @@ class DirectorsController < ApplicationController
   end
 
   def update
-    # Get the ID from params
     d_id = params.fetch("the_id")
-    # Look up the existing director record
-    matching_records = Director.where({ :id => d_id })
-    the_director = matching_records.at(0)
-
-    # Overwrite each column with the values from user inputs
-    the_director.name = params.fetch("the_name")
-    the_director.dob = params.fetch("the_dob")
-    the_director.bio = params.fetch("the_bio")
-    the_director.image = params.fetch("the_image")
-
-    # Save the updated director record
-    the_director.save
-
-    # Redirect to the director details page
-    redirect_to("/directors/#{the_director.id}")
+    director = Director.where({ id: d_id }).at(0)
+  
+    # Ensure these parameter names match the form fields
+    director.name = params.fetch("the_name")
+    director.dob = params.fetch("the_dob")
+    director.bio = params.fetch("the_bio")
+    director.image = params.fetch("the_image")
+    director.save
+  
+    redirect_to("/directors/#{director.id}")
   end
 
   def destroy
