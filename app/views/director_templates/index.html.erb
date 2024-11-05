@@ -1,54 +1,64 @@
-<h1>
-  List of all directors
-</h1>
+<body>
 
-<hr>
+  <h1>List of all directors</h1>
 
-<table border="1">
-  <tr>
-    <th>
-      ID
-    </th>
+  <hr>
 
-    <th>
-      Image
-    </th>
+  <form action="/insert_director" method="post">
+  <div>
+    <label for="name_box">Name</label>
+    <input type="text" id="name_box" name="the_name">
+  </div>
 
-    <th>
-      Name
-    </th>
+  <div>
+    <label for="dob_box">Dob</label>
+    <input type="date" id="dob_box" name="the_dob">
+  </div>
 
-    <th>
-      Dob
-    </th>
+  <div>
+    <label for="bio_box">Bio</label>
+    <textarea id="bio_box" name="the_bio" rows="3"></textarea>
+  </div>
 
-    <th>
-    </th>
-  </tr>
+  <div>
+    <label for="image_box">Image</label>
+    <input type="text" id="image_box" name="the_image">
+  </div>
 
-  <% @list_of_directors.each do |director| %>
-  <tr>
-    <td>
-      <%= director.id %>
-    </td>
+  <button type="submit">Create director</button>
+</form>
 
-    <td>
-      <img src="<%= director.image %>" style="width:250px;">
-    </td>
+  <hr>
 
-    <td>
-      <%= director.name %>
-    </td>
+  <!-- Table to display list of all directors -->
+  <table border="1">
+    <tr>
+      <th>ID</th>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Dob</th>
+      <th></th>
+    </tr>
 
-    <td>
-      <%= director.dob %>
-    </td>
+    <% @list_of_directors.each do |director| %>
+      <tr>
+        <td><%= director.id %></td>
+        <td>
+          <% if director.image.present? %>
+            <img src="<%= director.image %>" style="width:250px;">
+          <% else %>
+            No Image Available
+          <% end %>
+        </td>
+        <td><%= director.name %></td>
+        <td><%= director.dob %></td>
+        <td>
+          <a href="/directors/<%= director.id %>">Show details</a>
+        </td>
+      </tr>
+    <% end %>
+  </table>
 
-    <td>
-      <a href="/directors/<%= director.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
-  <% end %>
-</table>
+  <div id="hl-aria-live-message-container" aria-live="polite" class="visually-hidden"></div>
+  <div id="hl-aria-live-alert-container" role="alert" aria-live="assertive" class="visually-hidden"></div>
+</body>

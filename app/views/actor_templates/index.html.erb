@@ -1,54 +1,78 @@
-<h1>
-  List of all actors
-</h1>
+<body>
 
-<hr>
+  <h1>List of all actors</h1>
 
-<table border="1">
-  <tr>
-    <th>
-      ID
-    </th>
+  <hr>
 
-    <th>
-      Image
-    </th>
+  <!-- Form to create a new actor -->
+  <form action="/insert_actor" method="post">
+    <div>
+      <label for="name_box">Name</label>
+      <input type="text" id="name_box" name="query_name">
+    </div>
 
-    <th>
-      Name
-    </th>
+    <div>
+      <label for="dob_box">Dob</label>
+      <input type="date" id="dob_box" name="query_dob">
+    </div>
 
-    <th>
-      Dob
-    </th>
+    <div>
+      <label for="bio_box">Bio</label>
+      <textarea id="bio_box" name="query_bio" rows="3"></textarea>
+    </div>
 
-    <th>
-    </th>
-  </tr>
+    <div>
+      <label for="image_box">Image</label>
+      <input type="text" id="image_box" name="query_image">
+    </div>
 
-  <% @list_of_actors.each do |an_actor| %>
-  <tr>
-    <td>
-      <%= an_actor.id %>
-    </td>
+    <button>Create actor</button>
+  </form>
 
-    <td>
-      <img src="<%= an_actor.image %>" style="width:250px;">
-    </td>
+  <hr>
 
-    <td>
-      <%= an_actor.name %>
-    </td>
+  <!-- Table to display list of all actors -->
+  <table border="1">
+    <tbody>
+      <tr>
+        <th>ID</th>
+        <th>Image</th>
+        <th>Name</th>
+        <th>Dob</th>
+        <th></th>
+      </tr>
 
-    <td>
-      <%= an_actor.dob %>
-    </td>
+      <% @list_of_actors.each do |an_actor| %>
+        <tr>
+          <td><%= an_actor.id %></td>
 
-    <td>
-      <a href="/actors/<%= an_actor.id %>">
-        Show details
-      </a>
-    </td>
-  </tr>
-  <% end %>
-</table>
+          <td>
+            <% if an_actor.image.present? %>
+              <img src="<%= an_actor.image %>" style="width:250px;">
+            <% else %>
+              No Image Available
+            <% end %>
+          </td>
+
+          <td><%= an_actor.name %></td>
+
+          <td>
+            <% if an_actor.dob.present? %>
+              <%= an_actor.dob.strftime("%Y-%m-%d") %>
+            <% else %>
+              Unknown
+            <% end %>
+          </td>
+
+          <td>
+            <a href="/actors/<%= an_actor.id %>">Show details</a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div id="hl-aria-live-message-container" aria-live="polite" class="visually-hidden"></div>
+  <div id="hl-aria-live-alert-container" role="alert" aria-live="assertive" class="visually-hidden"></div>
+
+</body>

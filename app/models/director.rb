@@ -2,7 +2,7 @@
 #
 # Table name: directors
 #
-#  id         :integer          not null, primary key
+#  id         :bigint           not null, primary key
 #  bio        :text
 #  dob        :date
 #  image      :string
@@ -11,4 +11,5 @@
 #  updated_at :datetime         not null
 #
 class Director < ApplicationRecord
+  has_many :movies, foreign_key: "director_id"
 end

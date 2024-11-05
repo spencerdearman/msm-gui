@@ -1,4 +1,5 @@
 class DirectorsController < ApplicationController
+  
   def index
     matching_directors = Director.all
     @list_of_directors = matching_directors.order({ :created_at => :desc })
@@ -35,5 +36,47 @@ class DirectorsController < ApplicationController
     @eldest = directors_by_dob_asc.at(0)
 
     render({ :template => "director_templates/eldest" })
+  end
+
+  def create
+    d = Director.new
+    d.name = params.fetch("the_name")
+    d.dob = params.fetch("the_dob")
+    d.bio = params.fetch("the_bio")
+    d.image = params.fetch("the_image")
+    d.save
+  
+    redirect_to("/directors")
+  end
+
+  def update
+    # Get the ID from params
+    d_id = params.fetch("the_id")
+    # Look up the existing director record
+    matching_records = Director.where({ :id => d_id })
+    the_director = matching_records.at(0)
+
+    # Overwrite each column with the values from user inputs
+    the_director.name = params.fetch("the_name")
+    the_director.dob = params.fetch("the_dob")
+    the_director.bio = params.fetch("the_bio")
+    the_director.image = params.fetch("the_image")
+
+    # Save the updated director record
+    the_director.save
+
+    # Redirect to the director details page
+    redirect_to("/directors/#{the_director.id}")
+  end
+
+  def destroy
+    # Get the ID from params
+    the_id = params.fetch("an_id")
+    # Find and delete the director record
+    matching_records = Director.where({ :id => the_id })
+    the_director = matching_records.at(0)
+    the_director.destroy
+
+    redirect_to("/directors")
   end
 end
